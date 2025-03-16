@@ -103,27 +103,39 @@ function patch(req, res) {
 function destroy(req, res) {
     //localhost:3000/api/posts/2
     //params : 2
-    const id = parseInt(req.params.id);
+    // const id = parseInt(req.params.id);
 
-    const post = posts.find(post => post.id === id);
+    // const post = posts.find(post => post.id === id);
 
-    if (!post) {
-        res.status(404)
+    // if (!post) {
+    //     res.status(404)
 
-        return res.json(
-            {
-                status: 404,
-                error: "Not Found",
-                message: 'Post not found'
-            }
-        );
-    }
+    //     return res.json(
+    //         {
+    //             status: 404,
+    //             error: "Not Found",
+    //             message: 'Post not found'
+    //         }
+    //     );
+    // }
 
-    posts.splice(posts.indexOf(post), 1);
+    // posts.splice(posts.indexOf(post), 1);
 
-    console.log(posts);
+    // console.log(posts);
 
-    res.sendStatus(204);
+    // res.sendStatus(204);
+
+    const {id} = req.params;
+
+    const sql = 'DELETE FROM posts WHERE id = ?';
+
+    connection.query( sql, [id], (err) => {
+        if(err) return res.status(500).json({
+            error: 'Database error query Destroy'
+        })
+
+        res.sendStatus(204)
+    })
 }
 
 module.exports = { index, show, store, update, patch, destroy };
