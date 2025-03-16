@@ -1,21 +1,31 @@
 const posts = require('../data/posts');
 
+const connection = require('../data/db')
+
 function index(req, res) {
 
     //variabile clone dell'array originale
-    let filteredPosts = posts;
+    //let filteredPosts = posts;
 
     //localhost:3000/api/posts?tags=Dolci
     //req.query.tags => valore della chiave tags nella uri
-    if (req.query.tags) {
+    //if (req.query.tags) {
         //riassegniamo i valori al clone
-        filteredPosts = posts.filter(post => {
+        //filteredPosts = posts.filter(post => {
             //tags=Dolci
-            return post.tags.includes(req.query.tags);
-        });
-    }
+           // return post.tags.includes(req.query.tags);
+       // });
+    //}
 
-    res.json(filteredPosts);
+   // res.json(filteredPosts);
+
+   const sql = 'SELECT * FROM posts';
+
+   connection.query( sql, (err, results) => {
+    if(err) return res.status(500).json({
+        error: 'Errore nel server query error INDEX'
+    })
+   })
 }
 
 function show(req, res) {
